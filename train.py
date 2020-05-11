@@ -87,12 +87,12 @@ def pad_batch(batch):
 
 if __name__ == "__main__":
 
-    hidden_size = 256
+    hidden_size = 512
     learning_rate = 0.01
-    n_epochs = 1
-    print_every = 100
-    batch_size = 12
-    save_every = 1000
+    n_epochs = 10
+    print_every = 1000
+    batch_size = 64
+    save_every = 2000
 
     input_lang, output_lang, pairs = prepare_data('eng', 'rus')
     batches, longest_seq, num_batches = batchify(pairs, input_lang, output_lang,
@@ -123,4 +123,5 @@ if __name__ == "__main__":
                 print('Time elapsed: {:.2f}\tIteration: {:.2f}\tloss: {:.5f}\tSpeed: {:.2f} iter/s'.format(
                     time.time()-start, iter+1, print_loss/print_every, (time.time()-start)/(iter+1)))
                 print_loss = 0
-                torch.save(model.state_dict(), '/home/soyer1492/PycharmProjects/translator/saved_models/ckpt_2layers-{}.pt'.format(iter+1))
+            if (iter + 1) % save_every == 0:
+                torch.save(model.state_dict(), '/kaggle/working/saved_models/ckpt_5layers-{}.pt'.format(iter+1))
