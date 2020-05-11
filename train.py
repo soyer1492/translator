@@ -90,9 +90,9 @@ if __name__ == "__main__":
     hidden_size = 512
     learning_rate = 0.01
     n_epochs = 10
-    print_every = 1000
+    print_every = 500
     batch_size = 64
-    save_every = 2000
+    save_every = 1000
 
     input_lang, output_lang, pairs = prepare_data('eng', 'rus')
     batches, longest_seq, num_batches = batchify(pairs, input_lang, output_lang,
