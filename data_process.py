@@ -88,7 +88,7 @@ class Language:
         self.word2count = {}
         self.index2word = {0: "SOS", 1: "EOS", 2: "UNK"}
         self.n_words = 3
-        self.min_occur = 20
+        self.min_occur = 5
 
     def add_sentence(self, sentence):
         for word in sentence.split(' '):

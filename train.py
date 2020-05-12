@@ -109,14 +109,14 @@ def save_checkpoint(model, optimizer, learning_rate, iteration, filepath):
 
 if __name__ == "__main__":
 
-    hidden_size = 256
+    hidden_size = 512
     learning_rate = 0.01
-    n_epochs = 1
+    n_epochs = 10
     print_every = 100
-    batch_size = 12
-    save_every = 100
-    checkpoint_path = '/home/soyer1492/PycharmProjects/translator/saved_models/checkpoint_99'
-    output_directory = '/home/soyer1492/PycharmProjects/translator/saved_models/'
+    batch_size = 128
+    save_every = 500
+    checkpoint_path = None
+    output_directory = '/kaggle/working/saved_models/'
 
     input_lang, output_lang, pairs = prepare_data('eng', 'rus')
     batches, longest_seq, num_batches = batchify(pairs, input_lang, output_lang,
@@ -155,5 +155,5 @@ if __name__ == "__main__":
                 print_loss = 0
             if (iteration+1) % save_every == 0:
                 checkpoint_path = os.path.join(output_directory, "checkpoint_{}".format(iteration))
-                save_checkpoint(model, optimizer, learning_rate, iteration, checkpoint_path)
+                save_checkpoint(model, optimizer, learning_rate, iteration+1, checkpoint_path)
             iteration += 1
