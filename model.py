@@ -16,7 +16,7 @@ MAX_LENGTH = 30
 
 
 class Encoder(nn.Module):
-    def __init__(self, input_size, hidden_size, layers=2, dropout=0.1, bidirectional=True):
+    def __init__(self, input_size, hidden_size, layers=3, dropout=0.1, bidirectional=True):
         super(Encoder, self).__init__()
         if bidirectional:
             self.directions = 2
@@ -53,7 +53,7 @@ class Encoder(nn.Module):
 
 
 class Decoder(nn.Module):
-    def __init__(self, hidden_size, output_size, layers=2, dropout=0.1, bidirectional=True):
+    def __init__(self, hidden_size, output_size, layers=3, dropout=0.1, bidirectional=True):
         super(Decoder, self).__init__()
 
         if bidirectional:

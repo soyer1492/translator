@@ -4,7 +4,7 @@ import torch.nn as nn
 import time
 import math
 from random import shuffle
-
+import os
 
 from data_process import prepare_data, tensorFromSentence
 from model import Encoder, Decoder, Translator
@@ -85,6 +85,28 @@ def pad_batch(batch):
     return padded_inputs, padded_targets
 
 
+def load_checkpoint(checkpoint_path, model, optimizer):
+    assert os.path.isfile(checkpoint_path)
+    print("Loading checkpoint '{}'".format(checkpoint_path))
+    checkpoint_dict = torch.load(checkpoint_path)
+    model.load_state_dict(checkpoint_dict['state_dict'])
+    optimizer.load_state_dict(checkpoint_dict['optimizer'])
+    learning_rate = checkpoint_dict['learning_rate']
+    iteration = checkpoint_dict['iteration']
+    print("Loaded checkpoint '{}' from iteration {}" .format(
+        checkpoint_path, iteration))
+    return model, optimizer, learning_rate, iteration
+
+
+def save_checkpoint(model, optimizer, learning_rate, iteration, filepath):
+    print("Saving model and optimizer state at iteration {} to {}".format(
+        iteration, filepath))
+    torch.save({'iteration': iteration,
+                'state_dict': model.state_dict(),
+                'optimizer': optimizer.state_dict(),
+                'learning_rate': learning_rate}, filepath)
+
+
 if __name__ == "__main__":
 
     hidden_size = 256
@@ -92,7 +114,9 @@ if __name__ == "__main__":
     n_epochs = 1
     print_every = 100
     batch_size = 12
-    save_every = 1000
+    save_every = 100
+    checkpoint_path = '/home/soyer1492/PycharmProjects/translator/saved_models/checkpoint_99'
+    output_directory = '/home/soyer1492/PycharmProjects/translator/saved_models/'
 
     input_lang, output_lang, pairs = prepare_data('eng', 'rus')
     batches, longest_seq, num_batches = batchify(pairs, input_lang, output_lang,
@@ -107,6 +131,12 @@ if __name__ == "__main__":
     optimizer = optim.SGD(model.parameters(), lr=learning_rate)
     criterion = nn.NLLLoss()
     start = time.time()
+    iteration = 0
+
+    if checkpoint_path is not None:
+        model, optimizer, learning_rate, iteration = load_checkpoint(checkpoint_path, model, optimizer)
+        iteration += 1  # next iteration is iteration + 1
+
     for epoch in range(n_epochs):
         print_loss = 0
         for iter, batch in enumerate(batches):
@@ -121,6 +151,9 @@ if __name__ == "__main__":
             optimizer.step()
             if (iter + 1) % print_every == 0:
                 print('Time elapsed: {:.2f}\tIteration: {:.2f}\tloss: {:.5f}\tSpeed: {:.2f} iter/s'.format(
-                    time.time()-start, iter+1, print_loss/print_every, (time.time()-start)/(iter+1)))
+                    time.time()-start, iteration+1, print_loss/print_every, (time.time()-start)/(iteration+1)))
                 print_loss = 0
-                torch.save(model.state_dict(), '/home/soyer1492/PycharmProjects/translator/saved_models/ckpt_2layers-{}.pt'.format(iter+1))
+            if (iteration+1) % save_every == 0:
+                checkpoint_path = os.path.join(output_directory, "checkpoint_{}".format(iteration))
+                save_checkpoint(model, optimizer, learning_rate, iteration, checkpoint_path)
+            iteration += 1
