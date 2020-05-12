@@ -5,8 +5,8 @@ SOS_token = 0
 EOS_token = 1
 
 
-ENG_DATA = '/home/soyer1492/dataset/corpus.en_ru.1m.en'
-RUS_DATA = '/home/soyer1492/dataset/corpus.en_ru.1m.ru'
+ENG_DATA = '/kaggle/input/dataset-eng-rus-y/corpus.en_ru.1m.en'
+RUS_DATA = '/kaggle/input/dataset-eng-rus-y/corpus.en_ru.1m.ru'
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 MAX_LENGTH = 30
