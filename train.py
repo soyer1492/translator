@@ -113,8 +113,8 @@ if __name__ == "__main__":
     learning_rate = 0.01
     n_epochs = 10
     print_every = 100
-    batch_size = 128
-    save_every = 500
+    batch_size = 64
+    save_every = 100
     checkpoint_path = None
     output_directory = '/kaggle/working/saved_models/'
 
