@@ -154,6 +154,6 @@ if __name__ == "__main__":
                     time.time()-start, iteration+1, print_loss/print_every, (time.time()-start)/(iteration+1)))
                 print_loss = 0
             if (iteration+1) % save_every == 0:
-                checkpoint_path = os.path.join(output_directory, "checkpoint_{}".format(iteration))
+                checkpoint_path = os.path.join(output_directory, "checkpoint_{}".format(iteration+1))
                 save_checkpoint(model, optimizer, learning_rate, iteration+1, checkpoint_path)
             iteration += 1
