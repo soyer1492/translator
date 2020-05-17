@@ -114,7 +114,7 @@ if __name__ == "__main__":
     n_epochs = 10
     print_every = 300
     batch_size = 64
-    save_every = 5000
+    save_every = 10000
     checkpoint_path = None
     output_directory = '/kaggle/working/saved_models/'
 
