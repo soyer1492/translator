@@ -114,8 +114,8 @@ if __name__ == "__main__":
     n_epochs = 10
     print_every = 300
     batch_size = 64
-    save_every = 10000
-    checkpoint_path = '/kaggle/input/checkpoints/checkpoint_40000'
+    save_every = 8000
+    checkpoint_path = '/kaggle/input/checkpoints8/checkpoint_80000'
     output_directory = '/kaggle/working/saved_models/'
 
     input_lang, output_lang, pairs = prepare_data('eng', 'rus')
